@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Feed sources{% endblock %}
+
+{% block body %}
+    <h1>Feed sources</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Url</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for feed_source in feed_sources %}
+            <tr>
+                <td>{{ feed_source.id }}</td>
+                <td>{{ feed_source.name }}</td>
+                <td>{{ feed_source.url }}</td>
+                <td>
+                    <a href="{{ path('feed_source_show', {'id': feed_source.id}) }}">show</a>
+                    <a href="{{ path('feed_source_edit', {'id': feed_source.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('feed_source_new') }}">Create new</a>
+{% endblock %}

@@ -17,8 +17,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav">
                 {% if app.user %}
-                    <a class="nav-link" href="#">Sample link</a>
-                    <a class="nav-link" href="#">Sample link</a>
+                    <a class="nav-link" href="{{ path('feed_source_index') }}">Feed sources</a>
                     <a class="nav-link" href="{{ path('app_logout') }}">Log out</a>
                 {% endif %}
             </div>

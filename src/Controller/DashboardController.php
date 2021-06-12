@@ -15,7 +15,6 @@ class DashboardController extends AbstractController
     {
         /** @var FeedSource[] */
         $sources = $this->getUser()->getSources();
-        dd($sources);
 
         return $this->render('dashboard/index.html.twig', [
             'sources' => $sources,

@@ -30,6 +30,8 @@ class FeedSourceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->getUser()->addSource($feedSource);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($feedSource);
             $entityManager->flush();

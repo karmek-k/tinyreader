@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\FeedSource;
 use App\Form\FeedSourceType;
-use App\Repository\FeedSourceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,10 +13,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class FeedSourceController extends AbstractController
 {
     #[Route('/', name: 'feed_source_index', methods: ['GET'])]
-    public function index(FeedSourceRepository $feedSourceRepository): Response
+    public function index(): Response
     {
+        $sources = $this->getUser()->getSources();
+
         return $this->render('feed_source/index.html.twig', [
-            'feed_sources' => $feedSourceRepository->findAll(),
+            'feed_sources' => $sources
         ]);
     }
 

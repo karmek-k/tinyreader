@@ -12,6 +12,11 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/feed-source')]
 class FeedSourceController extends AbstractController
 {
+    private function userHasSource(FeedSource $source): bool
+    {
+        return $this->getUser()->getSources()->contains($source);
+    }
+
     #[Route('/', name: 'feed_source_index', methods: ['GET'])]
     public function index(): Response
     {
@@ -36,6 +41,8 @@ class FeedSourceController extends AbstractController
             $entityManager->persist($feedSource);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Source was added successfully');
+
             return $this->redirectToRoute('feed_source_index');
         }
 
@@ -48,6 +55,13 @@ class FeedSourceController extends AbstractController
     #[Route('/{id}', name: 'feed_source_show', methods: ['GET'])]
     public function show(FeedSource $feedSource): Response
     {
+        if (!$this->userHasSource($feedSource)) {
+            $sourceName = $feedSource->getName();
+            $this->addFlash('error', "You haven't added $sourceName to your sources");
+
+            return $this->redirectToRoute('dashboard_index');
+        }
+
         return $this->render('feed_source/show.html.twig', [
             'feed_source' => $feedSource,
         ]);
@@ -56,6 +70,12 @@ class FeedSourceController extends AbstractController
     #[Route('/{id}/edit', name: 'feed_source_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, FeedSource $feedSource): Response
     {
+        if (!$this->userHasSource($feedSource)) {
+            $this->addFlash('error', 'You cannot edit this source');
+
+            return $this->redirectToRoute('dashboard_index');
+        }
+
         $form = $this->createForm(FeedSourceType::class, $feedSource);
         $form->handleRequest($request);
 
@@ -74,10 +94,18 @@ class FeedSourceController extends AbstractController
     #[Route('/{id}', name: 'feed_source_delete', methods: ['POST'])]
     public function delete(Request $request, FeedSource $feedSource): Response
     {
+        if (!$this->userHasSource($feedSource)) {
+            $this->addFlash('error', 'You cannot delete this source');
+
+            return $this->redirectToRoute('dashboard_index');
+        }
+
         if ($this->isCsrfTokenValid('delete'.$feedSource->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($feedSource);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Source was deleted successfully');
         }
 
         return $this->redirectToRoute('feed_source_index');

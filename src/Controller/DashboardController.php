@@ -39,7 +39,7 @@ class DashboardController extends AbstractController
             $storedArticles = $source->getArticles()->toArray();
 
             foreach ($rssArticles as $rssArticle) {
-                if (!in_array($rssArticle, $storedArticles)) {
+                if (!in_array($rssArticle->getTitle(), $storedArticles)) {
                     $em->persist($rssArticle);
                     $source->addArticle($rssArticle);
                 }   

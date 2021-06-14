@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use Exception;
 use FeedIo\FeedInterface;
 use FeedIo\FeedIo;
 
@@ -14,8 +15,12 @@ class RssReader
         $this->feedIo = \FeedIo\Factory::create()->getFeedIo();
     }
 
-    public function read(string $url): FeedInterface
+    public function read(string $url): ?FeedInterface
     {
-        return $this->feedIo->read($url)->getFeed();
+        try {
+            return $this->feedIo->read($url)->getFeed();
+        } catch (Exception $e) {
+            return null;
+        }
     }
 }

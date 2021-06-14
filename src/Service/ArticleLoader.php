@@ -16,12 +16,17 @@ class ArticleLoader
      * @param FeedSource[] $sources
      * @return int Amount of new articles 
      */
-    public function loadNew(mixed $sources): int
+    public function loadNew(mixed $sources): ?int
     {
         $newCount = 0;
 
         foreach ($sources as $source) {
-            $feed = $this->rss->read($source->getUrl());
+            $feed = $this->rss?->read($source->getUrl());
+
+            if ($feed === null) {
+                return null;
+            }
+
             $rssArticles = $this->articleFactory->fromFeedAll($feed);
 
             $storedArticles = $source->getArticles()->toArray();

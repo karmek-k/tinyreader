@@ -31,10 +31,17 @@ class DashboardController extends AbstractController
         $sources = $this->getUser()->getSources();
         $newCount = $articleLoader->loadNew($sources);
 
-        $this->addFlash(
-            'success',
-            "Feed has been reloaded: $newCount new articles"
-        );
+        if ($newCount !== null) {
+            $this->addFlash(
+                'success',
+                "Feed has been reloaded: $newCount new articles"
+            );
+        } else {
+            $this->addFlash(
+                'warning',
+                'An error occurred while reading from one or more sources. Please check if their URL is valid.'
+            );
+        }
 
         return $this->redirectToRoute('dashboard_index');
     }

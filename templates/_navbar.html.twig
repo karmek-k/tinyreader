@@ -18,6 +18,12 @@
             <div class="navbar-nav">
                 {% if app.user %}
                     <a class="nav-link" href="{{ path('feed_source_index') }}">Feed sources</a>
+                    <a class="nav-link" href="{{ path('dashboard_reload') }}">Reload news</a>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a class="nav-link" href="{{ path('admin') }}">Admin panel</a>
+                    {% endif %}
+                    
                     <a class="nav-link" href="{{ path('app_logout') }}">Log out</a>
                 {% endif %}
             </div>

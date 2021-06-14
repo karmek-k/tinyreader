@@ -29,6 +29,13 @@ class AppFixtures extends Fixture
             ->setPassword($this->hasher->hashPassword($user, '12345'))
             ->addSource($feedSource);
         $manager->persist($user);
+
+        $admin = new User();
+        $admin
+            ->setUsername('admin')
+            ->setRoles(['ROLE_ADMIN'])
+            ->setPassword($this->hasher->hashPassword($admin, '12345'));
+        $manager->persist($admin);
         
         $article = new Article();
         $article

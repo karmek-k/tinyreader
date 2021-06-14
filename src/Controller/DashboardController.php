@@ -29,9 +29,12 @@ class DashboardController extends AbstractController
     {
         /** @var FeedSource[] */
         $sources = $this->getUser()->getSources();
-        $articleLoader->loadNew($sources);
+        $newCount = $articleLoader->loadNew($sources);
 
-        $this->addFlash('success', 'Feed has been reloaded');
+        $this->addFlash(
+            'success',
+            "Feed has been reloaded: $newCount new articles"
+        );
 
         return $this->redirectToRoute('dashboard_index');
     }

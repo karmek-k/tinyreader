@@ -43,12 +43,13 @@ class TrUserCreateCommand extends Command
 
         $user = new User();
 
-        $username = $io->ask('Username');
-        $password = $io->askHidden('Password');
-
         if ((bool) $input->getOption('admin')) {
+            $io->warning('Creating an admin user');
             $user->setRoles(['ROLE_ADMIN']);
         }
+
+        $username = $io->ask('Username');
+        $password = $io->askHidden('Password (not visible on the screen)');
 
         $user
             ->setUsername($username)

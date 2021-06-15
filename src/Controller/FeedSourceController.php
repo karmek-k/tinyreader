@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/feed-source')]
+#[Route('/feed-sources')]
 class FeedSourceController extends AbstractController
 {
     private function userHasSource(FeedSource $source): bool

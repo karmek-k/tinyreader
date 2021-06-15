@@ -26,7 +26,7 @@
                 >
                     <div class="accordion-body">
                         <ul>
-                            {% for article in source.articles %}
+                            {% for article in article_repo.findRecent(source) %}
                                 <li>
                                     <a href="{{ article.url }}">{{ article.title }}</a>
                                     {% if article.lastModified %}

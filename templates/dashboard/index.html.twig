@@ -29,7 +29,11 @@
                             {% for article in source.articles %}
                                 <li>
                                     <a href="{{ article.url }}">{{ article.title }}</a>
-                                    - {{ article.lastModified | date('Y/m/d') }}<br />
+                                    {% if article.lastModified %}
+                                        - {{ article.lastModified | date('Y/m/d') }}
+                                    {% endif %}
+                                    <br />
+
                                     {{ article.excerpt }}
                                 </li>
                             {% endfor %}

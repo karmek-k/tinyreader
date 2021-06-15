@@ -28,7 +28,8 @@
                         <ul>
                             {% for article in source.articles %}
                                 <li>
-                                    <a href="{{ article.url }}">{{ article.title }}</a><br />
+                                    <a href="{{ article.url }}">{{ article.title }}</a>
+                                    - {{ article.lastModified | date('Y/m/d') }}<br />
                                     {{ article.excerpt }}
                                 </li>
                             {% endfor %}

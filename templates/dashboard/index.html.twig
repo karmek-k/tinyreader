@@ -30,7 +30,7 @@
                                 <li>
                                     <a href="{{ article.url }}">{{ article.title }}</a>
                                     {% if article.lastModified %}
-                                        - {{ article.lastModified | date('Y/m/d') }}
+                                        - {{ article.lastModified | date('Y/m/d H:m') }}
                                     {% endif %}
                                     <br />
 

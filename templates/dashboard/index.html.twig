@@ -38,6 +38,8 @@
 
                                     {{ article.excerpt }}
                                 </li>
+                            {% else %}
+                                <p>No articles found. <a href="{{ path('dashboard_reload') }}">Reload</a>?</p>
                             {% endfor %}
                         </ul>
                     </div>

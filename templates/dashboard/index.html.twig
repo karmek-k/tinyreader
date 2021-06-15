@@ -3,6 +3,8 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block body %}
+    <h1>Recent articles</h1>
+
     <div class="accordion" id="newsAccordion">
         {% for i, source in sources %}
             <div class="accordion-item">
@@ -41,6 +43,12 @@
                     </div>
                 </div>
             </div>
+        {% else %}
+            <h3>You haven't loaded any articles yet!</h3>
+            <ol>
+                <li>Add some <a href="{{ path('feed_source_index') }}">feed sources</a></li>
+                <li><a href="{{ path('dashboard_reload') }}">Reload</a> the news database</li>
+            </ol>
         {% endfor %}
     </div>
 {% endblock %}

@@ -37,13 +37,13 @@ class AppFixtures extends Fixture
             ->setPassword($this->hasher->hashPassword($admin, '12345'));
         $manager->persist($admin);
         
-        $article = new Article();
-        $article
-            ->setTitle('Składka zdrowotna 2021')
-            ->setUrl('https://kadry.infor.pl/ubezpieczenia-spoleczne/ubezpieczenia-zdrowotne/5275077,Skladka-zdrowotna-2021-dzialalnosc-gospodarcza.html')
-            ->setExcerpt('Składka zdrowotna w 2021 r. a działalność gospodarcza - ile wynosi wysokość składki zdrowotnej? Jak Nowy Ład wpłynie na wysokość składki zdrowotnej?')
-            ->setSource($feedSource);
-        $manager->persist($article);
+        // $article = new Article();
+        // $article
+        //     ->setTitle('Składka zdrowotna 2021')
+        //     ->setUrl('https://kadry.infor.pl/ubezpieczenia-spoleczne/ubezpieczenia-zdrowotne/5275077,Skladka-zdrowotna-2021-dzialalnosc-gospodarcza.html')
+        //     ->setExcerpt('Składka zdrowotna w 2021 r. a działalność gospodarcza - ile wynosi wysokość składki zdrowotnej? Jak Nowy Ład wpłynie na wysokość składki zdrowotnej?')
+        //     ->setSource($feedSource);
+        // $manager->persist($article);
 
         $manager->flush();
     }

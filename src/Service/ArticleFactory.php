@@ -3,11 +3,12 @@
 namespace App\Service;
 
 use App\Entity\Article;
+use FeedIo\Feed\Item;
 use FeedIo\FeedInterface;
 
 class ArticleFactory
 {
-    private function createArticle(mixed $rssArticle, bool $stripTags = true): Article
+    private function createArticle(Item $rssArticle, bool $stripTags = true): Article
     {
         /** @var string */
         $excerpt = $rssArticle->getContent();
@@ -30,6 +31,7 @@ class ArticleFactory
         $article
             ->setTitle($rssArticle->getTitle())
             ->setExcerpt($excerpt)
+            ->setLastModified($rssArticle->getLastModified())
             ->setUrl($rssArticle->getLink());
         
         return $article;

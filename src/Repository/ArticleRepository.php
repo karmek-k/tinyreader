@@ -28,7 +28,7 @@ class ArticleRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('a')
             ->where('a.source = :source')
             ->setParameter('source', $feed)
-            ->orderBy('a.last_modified', 'DESC')
+            ->orderBy('a.lastModified', 'DESC')
             ->setMaxResults(self::RECENT_RESULTS)
             ->getQuery()
             ->getResult();

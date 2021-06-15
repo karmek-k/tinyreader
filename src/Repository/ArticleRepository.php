@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Article;
+use App\Entity\FeedSource;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,9 +16,22 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ArticleRepository extends ServiceEntityRepository
 {
+    public const RECENT_RESULTS = 5;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Article::class);
+    }
+
+    public function findRecent(FeedSource $feed)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.source = :source')
+            ->setParameter('source', $feed)
+            ->orderBy('a.last_modified', 'DESC')
+            ->setMaxResults(self::RECENT_RESULTS)
+            ->getQuery()
+            ->getResult();
     }
 
     // /**

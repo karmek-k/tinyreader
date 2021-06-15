@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\FeedSource;
+use App\Repository\ArticleRepository;
 use App\Service\ArticleFactory;
 use App\Service\ArticleLoader;
 use App\Service\RssReader;
@@ -14,13 +15,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class DashboardController extends AbstractController
 {
     #[Route('/', name: 'dashboard_index')]
-    public function index(): Response
+    public function index(ArticleRepository $articleRepo): Response
     {
         /** @var FeedSource[] */
         $sources = $this->getUser()->getSources();
 
         return $this->render('dashboard/index.html.twig', [
             'sources' => $sources,
+            'article_repo' => $articleRepo,
         ]);
     }
 
@@ -38,7 +40,7 @@ class DashboardController extends AbstractController
             );
         } else {
             $this->addFlash(
-                'warning',
+                'danger',
                 'An error occurred while reading from one or more sources. Please check if their URL is valid.'
             );
         }

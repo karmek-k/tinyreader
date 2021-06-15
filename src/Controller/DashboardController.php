@@ -38,7 +38,7 @@ class DashboardController extends AbstractController
             );
         } else {
             $this->addFlash(
-                'warning',
+                'danger',
                 'An error occurred while reading from one or more sources. Please check if their URL is valid.'
             );
         }

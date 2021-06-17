@@ -29,5 +29,6 @@ var/
 vendor/
 .phpunit.result.cache
 phpunit.xml
+server/
 
 README.md

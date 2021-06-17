@@ -1,4 +1,7 @@
 {
+    "name": "karmek-k/tinyreader",
+    "description": "A RSS reader using SQLite as its database",
+    "version": "0.1.0",
     "type": "project",
     "license": "MIT",
     "minimum-stability": "stable",

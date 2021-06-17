@@ -15,5 +15,7 @@ RUN composer install --no-dev -o
 
 FROM php:8.0-fpm
 
-COPY --from=composer /app /app
+WORKDIR /app
+COPY --from=composer /app .
+ENV APP_ENV=prod
 EXPOSE 9000

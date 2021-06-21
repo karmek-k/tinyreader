@@ -17,5 +17,7 @@ FROM php:8.0-fpm
 
 WORKDIR /app
 COPY --from=composer /app .
+RUN apt-get update && apt-get install -y libpq-dev
+RUN docker-php-ext-install pgsql pdo pdo_pgsql
 ENV APP_ENV=prod
 EXPOSE 9000

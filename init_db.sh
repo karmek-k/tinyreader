@@ -1,2 +1,1 @@
-# php bin/console doctrine:database:create
-php bin/console doctrine:migrations:migrate -n
+docker-compose exec app bash -c "php bin/console doctrine:migrations:migrate -n"

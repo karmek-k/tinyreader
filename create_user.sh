@@ -1,0 +1,1 @@
+docker-compose exec app bash -c "php bin/console tr:user:create $1"

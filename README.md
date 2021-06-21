@@ -2,7 +2,37 @@
 
 ## Installation
 
-### Docker (PHP-FPM)
+### Docker Compose
+
+Build and launch docker-compose:
+
+```
+docker-compose up
+```
+
+You are not able right now to use the database, as there are no tables.
+Migrate the database using the `init_db.sh` script **while `docker-compose` is running**:
+
+```
+chmod +x init_db.sh
+./init_db.sh
+```
+
+Create a user:
+
+```bash
+chmod +x create_user.sh
+
+# normal user
+./create_user.sh
+
+# admin user
+./create_user.sh -a
+```
+
+Now you should be able to see the login page at `http://localhost:8000`.
+
+<!-- ### Docker without Compose (PHP-FPM)
 
 Create a container:
 
@@ -37,8 +67,4 @@ docker exec -it tr bash -c "php bin/console tr:user:create -a"
 ```
 
 After that, you have to use a FastCGI proxy like [nginx](https://www.nginx.com/).
-There is an example configuration file in `server/tinyreader.conf`.
-
-### Docker Compose
-
-TODO: add installation guide for compose
+There is an example configuration file in `server/tinyreader.conf`. -->

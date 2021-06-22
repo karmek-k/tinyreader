@@ -32,11 +32,11 @@ class DashboardController extends AbstractController
     {
         $userId = $this->getUser()->getId();
         $this->dispatchMessage(new FeedReloadMessage($userId));
-        
+
         $this->addFlash(
             'success',
             'A feed reload job has been started. '
-            . 'Please wait a moment and refresh the page.'
+            . 'Please wait 10-15 seconds and refresh the page.'
         );
 
         return $this->redirectToRoute('dashboard_index');

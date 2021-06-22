@@ -1,0 +1,39 @@
+version: '3.8'
+
+services: 
+    database:
+        image: postgres:13
+        volumes: 
+            - db_data:/var/lib/postgres/data
+        env_file: 
+            - db.env
+        ports:
+            - '5432'
+        restart: always
+
+    app:
+        build: .
+        depends_on:
+            - database
+        env_file: 
+            - db.env
+        ports:
+            - 9000:9000
+        volumes: 
+            - tr_build:/app
+
+    server:
+        image: nginx:1.21
+        depends_on: 
+            - app
+        volumes:
+            - tr_build:/var/www/tinyreader
+            - ./server:/etc/nginx/conf.d
+        ports: 
+            - 8000:80
+        expose: 
+            - '8000'
+
+volumes:
+    db_data:
+    tr_build:

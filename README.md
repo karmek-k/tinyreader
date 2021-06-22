@@ -4,13 +4,19 @@
 
 ### Docker Compose
 
+Create the `db.env` from a template and edit it:
+
+```
+cp db.example.env db.env
+```
+
 Build and launch docker-compose:
 
 ```
 docker-compose up
 ```
 
-You are not able right now to use the database, as there are no tables.
+You are not able to use the database right now, as it has not been migrated.
 Migrate the database using the `init_db.sh` script **while `docker-compose` is running**:
 
 ```

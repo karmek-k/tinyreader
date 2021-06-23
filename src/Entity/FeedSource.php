@@ -33,7 +33,7 @@ class FeedSource
     private $url;
 
     /**
-     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="source")
+     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="source", cascade={"remove"})
      */
     private $articles;
 

@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\FeedSource;
+use App\Message\FeedReloadMessage;
 use App\Repository\ArticleRepository;
 use App\Service\ArticleFactory;
 use App\Service\ArticleLoader;
+use App\Service\FeedReloader;
 use App\Service\RssReader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,23 +29,15 @@ class DashboardController extends AbstractController
     }
 
     #[Route('/reload', name: 'dashboard_reload')]
-    public function reload(ArticleLoader $articleLoader): Response
+    public function reload(FeedReloader $feedReloader): Response
     {
-        /** @var FeedSource[] */
-        $sources = $this->getUser()->getSources();
-        $newCount = $articleLoader->loadNew($sources);
+        $feedReloader->requestReload($this->getUser());
 
-        if ($newCount !== null) {
-            $this->addFlash(
-                'success',
-                "Feed has been reloaded: $newCount new articles"
-            );
-        } else {
-            $this->addFlash(
-                'danger',
-                'An error occurred while reading from one or more sources. Please check if their URL is valid.'
-            );
-        }
+        $this->addFlash(
+            'success',
+            'A feed reload job has been started. '
+            . 'Please wait 10-15 seconds and refresh the page.'
+        );
 
         return $this->redirectToRoute('dashboard_index');
     }

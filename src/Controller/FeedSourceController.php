@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\FeedSource;
 use App\Form\FeedSourceType;
+use App\Service\FeedReloader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,20 +29,27 @@ class FeedSourceController extends AbstractController
     }
 
     #[Route('/new', name: 'feed_source_new', methods: ['GET', 'POST'])]
-    public function new(Request $request): Response
+    public function new(Request $request, FeedReloader $feedReloader): Response
     {
         $feedSource = new FeedSource();
         $form = $this->createForm(FeedSourceType::class, $feedSource);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getUser()->addSource($feedSource);
+            $user = $this->getUser();
+            $user->addSource($feedSource);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($feedSource);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Source was added successfully');
+            $this->addFlash(
+                'success',
+                'Source was added successfully. '
+                . 'News will be added shortly.'
+            );
+
+            $feedReloader->requestReload($user);
 
             return $this->redirectToRoute('feed_source_index');
         }

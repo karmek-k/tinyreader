@@ -7,6 +7,7 @@ use App\Message\FeedReloadMessage;
 use App\Repository\ArticleRepository;
 use App\Service\ArticleFactory;
 use App\Service\ArticleLoader;
+use App\Service\FeedReloader;
 use App\Service\RssReader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,10 +29,9 @@ class DashboardController extends AbstractController
     }
 
     #[Route('/reload', name: 'dashboard_reload')]
-    public function reload(): Response
+    public function reload(FeedReloader $feedReloader): Response
     {
-        $userId = $this->getUser()->getId();
-        $this->dispatchMessage(new FeedReloadMessage($userId));
+        $feedReloader->requestReload($this->getUser());
 
         $this->addFlash(
             'success',

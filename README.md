@@ -38,6 +38,8 @@ chmod +x create_user.sh
 
 Now you should be able to see the login page at `http://localhost:8000`.
 
+(Note that you must use `http`, not `https`. HTTPS certificates are not supported yet.)
+
 <!-- ### Docker without Compose (PHP-FPM)
 
 Create a container:

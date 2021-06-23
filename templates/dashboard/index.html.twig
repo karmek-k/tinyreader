@@ -5,52 +5,5 @@
 {% block body %}
     <h1>Recent articles</h1>
 
-    <div class="accordion" id="newsAccordion">
-        {% for i, source in sources %}
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="heading-{{ i }}">
-                    <button
-                        class="accordion-button collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapse-{{ i }}"
-                        aria-expanded="false"
-                        aria-controls="collapse-{{ i }}"
-                    >
-                        {{ source.name }}
-                    </button>
-                </h2>
-                <div 
-                    id="collapse-{{ i }}"
-                    class="accordion-collapse collapse"
-                    aria-labelledby="heading-{{ i }}"
-                    data-bs-parent="#newsAccordion"
-                >
-                    <div class="accordion-body">
-                        <ul>
-                            {% for article in article_repo.findRecent(source) %}
-                                <li>
-                                    <a href="{{ article.url }}">{{ article.title }}</a>
-                                    {% if article.lastModified %}
-                                        - {{ article.lastModified | date('Y/m/d H:m') }}
-                                    {% endif %}
-                                    <br />
-
-                                    {{ article.excerpt }}
-                                </li>
-                            {% else %}
-                                <p>No articles found. <a href="{{ path('dashboard_reload') }}">Reload</a>?</p>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        {% else %}
-            <h3>You haven't loaded any articles yet!</h3>
-            <ol>
-                <li>Add some <a href="{{ path('feed_source_index') }}">feed sources</a></li>
-                <li><a href="{{ path('dashboard_reload') }}">Reload</a> the news database</li>
-            </ol>
-        {% endfor %}
-    </div>
+    {% include 'dashboard/_news_accordion.html.twig' %}
 {% endblock %}

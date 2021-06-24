@@ -38,6 +38,23 @@ chmod +x create_user.sh
 
 Now you should be able to see the login page at `http://localhost:8000`.
 
+(Note that you must use `http`, not `https`. HTTPS certificates are not supported yet.)
+
+#### Worker process
+
+Execute the `worker.sh` script:
+
+```
+chmod +x worker.sh
+./worker.sh
+```
+
+This script has to be running all the time when the server is active,
+otherwise asynchronous feed reloading will not work.
+The script terminates when its memory usage exceeds 128M of memory,
+so it is highly recommended to use a process manager
+like [PM2](https://pm2.keymetrics.io/) or [Supervisor](http://supervisord.org/) to keep the worker alive.
+
 <!-- ### Docker without Compose (PHP-FPM)
 
 Create a container:

@@ -32,6 +32,7 @@
                                 {{ article.excerpt }}
                             </li>
                         {% else %}
+                            <h4>No articles</h4>
                             <p>
                                 There are no articles for in this feed yet.
                                 Wait some time and try refreshing the page.
@@ -39,6 +40,12 @@
                             <p>
                                 You can also manually request a feed reload
                                 with the "Reload news" button above.
+                            </p>
+
+                            <h4>For self-hosted instance owners</h4>
+                            <p>
+                                If you are hosting TinyReader on your machine,
+                                make sure that the Symfony message consumer is running.
                             </p>
                         {% endfor %}
                     </ul>
@@ -49,7 +56,11 @@
         <h3>You haven't loaded any articles yet!</h3>
         <ol>
             <li>Add some <a href="{{ path('feed_source_index') }}">feed sources</a></li>
-            <li><a href="{{ path('dashboard_reload') }}">Reload</a> the news database</li>
+            <li>Wait some time to let the feeds load, then refresh.</li>
         </ol>
+        <p>
+            If the articles won't load, make sure that all RSS URLs are correct
+            (that is, they yield XML documents describing news feeds).
+        </p>
     {% endfor %}
 </div>

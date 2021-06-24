@@ -12,7 +12,7 @@ services:
         restart: always
 
     app:
-        build: .
+        image: karmekk/tinyreader:latest
         depends_on:
             - database
         env_file: 

@@ -1,1 +1,1 @@
-docker-compose exec app bash -c "php bin/console messenger:consume async --time-limit=3600"
+docker-compose exec app bash -c "php bin/console messenger:consume async --memory-limit=128M"

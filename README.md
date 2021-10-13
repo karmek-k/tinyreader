@@ -10,10 +10,10 @@ Create the `db.env` from a template and edit it:
 cp db.example.env db.env
 ```
 
-Build and launch docker-compose:
+Build and launch docker-compose in background:
 
 ```
-docker-compose up
+docker-compose up -d
 ```
 
 You are not able to use the database right now, as it has not been migrated.

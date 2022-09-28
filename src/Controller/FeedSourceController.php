@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\FeedSource;
 use App\Form\FeedSourceType;
 use App\Service\FeedReloader;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,6 +14,10 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/feed-sources')]
 class FeedSourceController extends AbstractController
 {
+    public function __construct(private readonly EntityManagerInterface $entityManager)
+    {
+    }
+
     private function userHasSource(FeedSource $source): bool
     {
         return $this->getUser()->getSources()->contains($source);
@@ -39,9 +44,8 @@ class FeedSourceController extends AbstractController
             $user = $this->getUser();
             $user->addSource($feedSource);
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($feedSource);
-            $entityManager->flush();
+            $this->entityManager->persist($feedSource);
+            $this->entityManager->flush();
 
             $this->addFlash(
                 'success',
@@ -88,7 +92,7 @@ class FeedSourceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('feed_source_index');
         }
@@ -109,9 +113,8 @@ class FeedSourceController extends AbstractController
         }
 
         if ($this->isCsrfTokenValid('delete'.$feedSource->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($feedSource);
-            $entityManager->flush();
+            $this->entityManager->remove($feedSource);
+            $this->entityManager->flush();
 
             $this->addFlash('success', 'Source was deleted successfully');
         }

@@ -76,9 +76,6 @@ class FeedSource
         return $this;
     }
 
-    /**
-     * @return Collection|Article[]
-     */
     public function getArticles(): Collection
     {
         return $this->articles;

@@ -134,6 +134,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+    /**
+     * @return Collection|FeedSource[]
+     */
     public function getSources(): Collection
     {
         return $this->sources;

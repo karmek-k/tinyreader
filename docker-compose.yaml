@@ -2,7 +2,7 @@ version: '3'
 
 services:
     database:
-        image: postgres:13
+        image: postgres:14
         volumes:
             - db_data:/var/lib/postgres/data
         env_file:
@@ -11,28 +11,29 @@ services:
             - '5432:5432'
         restart: always
 
-    app:
-        image: karmekk/tinyreader:latest
-        depends_on:
-            - database
-        env_file:
-            - db.env
-        ports:
-            - '9000:9000'
-        volumes:
-            - tr_build:/app
+# TODO: move below to a production docker-compose.yaml
+#    app:
+#        image: karmekk/tinyreader:latest
+#        depends_on:
+#            - database
+#        env_file:
+#            - db.env
+#        ports:
+#            - '9000:9000'
+#        volumes:
+#            - tr_build:/app
 
-    server:
-        image: nginx:1.21
-        depends_on:
-            - app
-        volumes:
-            - tr_build:/var/www/tinyreader
-            - ./server:/etc/nginx/conf.d
-        ports:
-            - '8000:80'
-        expose:
-            - '8000'
+#    server:
+#        image: nginx:1.21
+#        depends_on:
+#            - app
+#        volumes:
+#            - tr_build:/var/www/tinyreader
+#            - ./server:/etc/nginx/conf.d
+#        ports:
+#            - '8000:80'
+#        expose:
+#            - '8000'
 
 volumes:
     db_data:

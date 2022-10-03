@@ -12,11 +12,7 @@ class ArticleLoader
         private EntityManagerInterface $em,
     ) {}
 
-    /**
-     * @param FeedSource[] $sources
-     * @return int Amount of new articles 
-     */
-    public function loadNew(mixed $sources): ?int
+    public function loadNew(mixed $sources): int
     {
         $newCount = 0;
 
@@ -24,7 +20,7 @@ class ArticleLoader
             $feed = $this->rss?->read($source->getUrl());
 
             if ($feed === null) {
-                return null;
+                return 0;
             }
 
             $rssArticles = $this->articleFactory->fromFeedAll($feed);

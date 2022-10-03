@@ -2,7 +2,7 @@ version: '3'
 
 services:
     database:
-        image: postgres:13
+        image: postgres:14
         volumes:
             - db_data:/var/lib/postgres/data
         env_file:
@@ -23,7 +23,7 @@ services:
             - tr_build:/app
 
     server:
-        image: nginx:1.21
+        image: nginx:1.23
         depends_on:
             - app
         volumes:

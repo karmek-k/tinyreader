@@ -2,51 +2,58 @@
 
 ## Installation
 
-### Docker Compose
+### Local environment for development
 
-Create the `db.env` from a template and edit it:
+You'll need:
+- PHP 8.1 or newer
+- Docker and Docker Compose (Docker Desktop is fine too, it installs both)
+
+Create a `db.env` file from template and edit it:
 
 ```
 cp db.example.env db.env
 ```
 
-Build and launch docker-compose in background:
+Launch Docker Compose in the background:
 
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 You are not able to use the database right now, as it has not been migrated.
-Migrate the database using the `init_db.sh` script **while `docker-compose` is running**:
+Migrate the database **while `docker compose` is running in the background**:
 
 ```
-chmod +x init_db.sh
-./init_db.sh
+php bin/console doctrine:migrations:migrate -n
 ```
 
 Create a user:
 
 ```bash
-chmod +x create_user.sh
-
 # normal user
-./create_user.sh
+php bin/console tr:user:create
 
 # admin user
-./create_user.sh -a
+php bin/console tr:user:create -a
 ```
 
-Now you should be able to see the login page at `http://localhost:8000`.
+Start the development server:
 
-(Note that you must use `http`, not `https`. HTTPS certificates are not supported yet.)
+```
+php bin/console serve
+```
+
+It may ask you to add some self-signed certificates.
+It's necessary in order to use HTTPS locally.
+
+Now you should be able to see the login page at `http://localhost:8000`
 
 #### Worker process
 
-Execute the `worker.sh` script:
+Execute the following script:
 
 ```
-chmod +x worker.sh
-./worker.sh
+php bin/console messenger:consume async --memory-limit=128M
 ```
 
 This script has to be running all the time when the server is active,

@@ -5,19 +5,27 @@ COPY . .
 RUN yarn 
 RUN yarn build
 
-FROM composer:2.4 AS composer
+FROM php:8.1-fpm AS dependencies
 
 WORKDIR /app
-COPY . .
-COPY --from=node /app/public ./public
+RUN apt update && apt install -y git unzip libzip-dev
+RUN docker-php-ext-install zip && useradd composer
 ENV APP_ENV=prod
+COPY --from=composer:2.4 /usr/bin/composer /usr/local/bin/composer
+COPY . .
+RUN chown -R composer:composer .
+USER composer
 RUN composer install --no-dev -o
 
 FROM php:8.1-fpm
 
 WORKDIR /app
-COPY --from=composer /app .
 RUN apt-get update && apt-get install -y libpq-dev
 RUN docker-php-ext-install pgsql pdo pdo_pgsql
+COPY --from=node /app/public ./public
+COPY --from=dependencies /app/vendor ./vendor
 ENV APP_ENV=prod
+COPY . .
+RUN useradd user && mkdir -p var/cache/prod && chown -R user:user /app
+USER user
 EXPOSE 9000
